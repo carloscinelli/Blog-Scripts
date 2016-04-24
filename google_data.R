@@ -55,18 +55,17 @@ zeros <- zeros %>% transmute(data = as.Date(format(Data, "%Y-%m-%d")),
                              dia_semana = factor(format(Data, "%A"), levels = dias_semana),
                              hora = as.numeric(format(Data, "%H")),
                              n = 0)
-
+zeros %>% filter(data == "2014-03-14")
 zeros <- zeros[names(freqs)]
-manter <- !with(zeros, data %in% freqs$data & hora %in% freqs$hora)
+manter <- !with(zeros, paste0(data, hora) %in% paste0(freqs$data,freqs$hora))
 zeros <- zeros[manter, ]
+zeros %>% group_by(data) %>% summarise(n())
 freqs <- bind_rows(zeros, freqs)
 
 # Exemplo: média de pesquisas por hora
 media_por_hora <- freqs %>% group_by(data, hora) %>% summarise(n = sum(n)) %>%
   group_by(hora) %>% summarise(media = mean(n))
-media_por_hora
 
 # Exemplo: média de pesquisas por dia da semana
 media_por_dia_semana <- freqs %>% group_by(data, dia_semana) %>% summarise(n = sum(n)) %>%
   group_by(dia_semana) %>% summarise(media = mean(n))
-media_por_dia_semana
