@@ -58,7 +58,6 @@ zeros <- zeros %>% transmute(data = as.Date(format(Data, "%Y-%m-%d")),
 zeros <- zeros[names(freqs)]
 manter <- !(with(zeros, paste0(data, hora)) %in% with(freqs, paste0(data, hora)))
 zeros <- zeros[manter, ]
-zeros %>% group_by(data) %>% summarise(n())
 freqs <- bind_rows(zeros, freqs)
 
 # Exemplo: média de pesquisas por hora
