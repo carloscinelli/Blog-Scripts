@@ -55,9 +55,8 @@ zeros <- zeros %>% transmute(data = as.Date(format(Data, "%Y-%m-%d")),
                              dia_semana = factor(format(Data, "%A"), levels = dias_semana),
                              hora = as.numeric(format(Data, "%H")),
                              n = 0)
-zeros %>% filter(data == "2014-03-14")
 zeros <- zeros[names(freqs)]
-manter <- !with(zeros, paste0(data, hora) %in% paste0(freqs$data,freqs$hora))
+manter <- !(with(zeros, paste0(data, hora)) %in% with(freqs, paste0(data, hora)))
 zeros <- zeros[manter, ]
 zeros %>% group_by(data) %>% summarise(n())
 freqs <- bind_rows(zeros, freqs)
