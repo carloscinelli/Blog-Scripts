@@ -67,3 +67,19 @@ media_por_hora <- freqs %>% group_by(data, hora) %>% summarise(n = sum(n)) %>%
 # Exemplo: média de pesquisas por dia da semana
 media_por_dia_semana <- freqs %>% group_by(data, dia_semana) %>% summarise(n = sum(n)) %>%
   group_by(dia_semana) %>% summarise(media = mean(n))
+
+
+# Exemplo: Word cloud
+x <- dados$Texto 
+x <- strsplit(x, " ")
+x <- unlist(x)
+x <- removePunctuation(x)
+x <- tolower(x)
+x <- removeWords(x, words = c(stopwords("en"), stopwords("pt")))
+x <- removeNumbers(x)
+x <- x[x != ""]
+tabela <- table(x)
+tabela <- sort(tabela, decreasing = T)
+
+library(wordcloud)
+wordcloud(names(tabela[1:200]), tabela[1:200])
