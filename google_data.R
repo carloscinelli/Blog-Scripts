@@ -70,6 +70,8 @@ media_por_dia_semana <- freqs %>% group_by(data, dia_semana) %>% summarise(n = s
 
 
 # Exemplo: Word cloud
+library(tm)
+
 x <- dados$Texto 
 x <- strsplit(x, " ")
 x <- unlist(x)
